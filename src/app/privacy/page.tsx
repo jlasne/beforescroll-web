@@ -16,7 +16,7 @@ export default function Privacy() {
         </Link>
         <h1 className="text-3xl font-bold mt-8 mb-8">Privacy Policy</h1>
         <div className="text-muted space-y-4 text-sm leading-relaxed">
-          <p>Last updated: January 2025</p>
+          <p>Last updated: March 2026</p>
           <p>
             BeforeScroll (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
             respects your privacy. This Privacy Policy explains how we collect,
@@ -27,8 +27,9 @@ export default function Privacy() {
           </h2>
           <p>
             We collect minimal information necessary to provide our service,
-            including device health data (step counts), camera data for pushup
-            verification (processed on-device), and basic usage analytics.
+            including device health data (step counts) and basic usage analytics.
+            All health data is processed locally on your device and never leaves
+            it.
           </p>
           <h2 className="text-foreground text-lg font-semibold pt-4">
             How We Use Your Information

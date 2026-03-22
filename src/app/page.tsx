@@ -7,21 +7,25 @@ const modes = [
     emoji: "🚶",
     name: "Walk to Unlock",
     desc: "Hit your daily step goal before you can open any locked app.",
+    available: true,
   },
   {
     emoji: "✝️",
     name: "Bible Reading",
     desc: "Read a daily verse and reflect before earning your scroll time.",
+    available: false,
   },
   {
     emoji: "🌍",
     name: "Geopolitics Quiz",
     desc: "Answer a world events question to prove you're paying attention.",
+    available: false,
   },
   {
     emoji: "💪",
     name: "Pushups",
     desc: "Do AI-verified pushups using your camera. No cheating.",
+    available: false,
   },
 ];
 
@@ -139,34 +143,55 @@ export default function Home() {
       <section className="px-6 py-20 md:py-28">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Unlock Modes
+            Earn your scroll time
           </h2>
-          <p className="text-muted text-center text-lg mb-16 max-w-lg mx-auto">
-            Choose your challenge. Make it yours.
+          <p className="text-muted text-center text-lg mb-12 max-w-lg mx-auto">
+            Complete a real-world challenge. Then your apps unlock.
           </p>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {modes.map((mode, i) => (
-              <div
-                key={mode.name}
-                className={`animate-fade-in ${
-                  i === 0
-                    ? "animate-delay-100"
-                    : i === 1
+
+          {/* Hero mode — Walk to Unlock */}
+          <div className="animate-fade-in animate-delay-100 rounded-2xl border-2 border-accent bg-card shadow-lg p-8 md:p-10 mb-8 relative">
+            <span className="absolute top-4 right-4 bg-accent text-background text-xs font-bold px-3 py-1 rounded-full">
+              Available now
+            </span>
+            <span className="text-5xl">🚶</span>
+            <h3 className="text-2xl md:text-3xl font-semibold mt-4 mb-2 font-[family-name:var(--font-dm-serif)]">
+              Walk to Unlock
+            </h3>
+            <p className="text-muted text-base md:text-lg leading-relaxed max-w-xl">
+              Set a daily step goal. Your addictive apps stay locked until you
+              hit it. No willpower needed — just walk. HealthKit counts every
+              step automatically.
+            </p>
+          </div>
+
+          {/* Coming soon modes — dimmed, smaller */}
+          <p className="text-muted text-sm font-semibold uppercase tracking-widest text-center mb-4">
+            More ways to earn — coming soon
+          </p>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {modes
+              .filter((m) => !m.available)
+              .map((mode, i) => (
+                <div
+                  key={mode.name}
+                  className={`animate-fade-in ${
+                    i === 0
                       ? "animate-delay-200"
-                      : i === 2
+                      : i === 1
                         ? "animate-delay-300"
                         : "animate-delay-400"
-                } rounded-2xl border border-border bg-card p-6 transition-all hover:border-accent/50 hover:shadow-md`}
-              >
-                <span className="text-3xl">{mode.emoji}</span>
-                <h3 className="text-lg font-semibold mt-3 mb-1 font-[family-name:var(--font-dm-serif)]">
-                  {mode.name}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed">
-                  {mode.desc}
-                </p>
-              </div>
-            ))}
+                  } rounded-xl border border-border bg-card opacity-60 p-4 text-center`}
+                >
+                  <span className="text-2xl">{mode.emoji}</span>
+                  <h3 className="text-sm font-semibold mt-2 mb-0.5 font-[family-name:var(--font-dm-serif)]">
+                    {mode.name}
+                  </h3>
+                  <p className="text-muted text-xs leading-relaxed">
+                    {mode.desc}
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </section>
@@ -175,9 +200,9 @@ export default function Home() {
       <section className="px-6 py-20 md:py-28">
         <div className="max-w-2xl mx-auto text-center animate-fade-in">
           <p className="text-2xl md:text-3xl font-bold leading-snug">
-            Join thousands breaking
+            Take back control of
             <br />
-            their phone addiction.
+            your screen time.
           </p>
         </div>
       </section>
@@ -186,13 +211,11 @@ export default function Home() {
       <section className="px-6 py-20 md:py-28">
         <div className="max-w-2xl mx-auto text-center animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Take back your time.
+            Start free for 15 days.
           </h2>
-          <p className="text-muted text-lg mb-2">
-            Free to try.{" "}
-            <span className="text-foreground font-semibold">$6.99/week.</span>
+          <p className="text-muted text-lg mb-10">
+            No commitment. Cancel anytime.
           </p>
-          <p className="text-muted text-sm mb-10">Cancel anytime.</p>
           <AppStoreButton />
         </div>
       </section>
@@ -200,7 +223,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border px-6 py-8">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted">
-          <p>&copy; 2025 BeforeScroll</p>
+          <p>&copy; 2026 BeforeScroll</p>
           <div className="flex gap-6">
             <Link
               href="/privacy"

@@ -16,7 +16,7 @@ export default function Terms() {
         </Link>
         <h1 className="text-3xl font-bold mt-8 mb-8">Terms of Service</h1>
         <div className="text-muted space-y-4 text-sm leading-relaxed">
-          <p>Last updated: January 2025</p>
+          <p>Last updated: March 2026</p>
           <p>
             By using BeforeScroll, you agree to these Terms of Service. Please
             read them carefully.
@@ -33,10 +33,13 @@ export default function Terms() {
             Subscriptions & Payments
           </h2>
           <p>
-            BeforeScroll offers a free trial and a paid subscription at
-            $6.99/week. Subscriptions are billed through the Apple App Store and
-            are subject to Apple&apos;s terms. You can cancel anytime through your
-            App Store settings.
+            BeforeScroll offers a 15-day free trial. After the trial,
+            subscriptions are available at &euro;4.99/month or &euro;39.99/year.
+            Subscriptions are billed through the Apple App Store and
+            are subject to Apple&apos;s terms. Subscriptions automatically renew
+            unless cancelled at least 24 hours before the end of the current
+            period. You can manage and cancel your subscription anytime through
+            your App Store settings.
           </p>
           <h2 className="text-foreground text-lg font-semibold pt-4">
             Limitation of Liability
