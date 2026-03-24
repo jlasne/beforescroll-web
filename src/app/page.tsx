@@ -1,4 +1,5 @@
 import Link from "next/link";
+import EmailCapture from "@/components/EmailCapture";
 
 const APPSTORE_URL = "https://apps.apple.com/app/beforescroll";
 
@@ -107,6 +108,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Email Capture — Hero */}
+      <EmailCapture />
 
       {/* How It Works */}
       <section className="px-6 py-20 md:py-28">
@@ -219,6 +223,9 @@ export default function Home() {
           <AppStoreButton />
         </div>
       </section>
+
+      {/* Email Capture — Bottom */}
+      <EmailCapture />
 
       {/* Footer */}
       <footer className="border-t border-border px-6 py-8">
