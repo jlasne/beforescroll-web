@@ -100,17 +100,14 @@ export default function Home() {
               challenge before you can open them.
             </p>
           </div>
-          <div className="animate-fade-in animate-delay-200 mb-16">
-            <AppStoreButton />
+          <div className="animate-fade-in animate-delay-200 mb-16 w-full max-w-md">
+            <EmailCapture />
           </div>
           <div className="animate-fade-in animate-delay-300">
             <div className="phone-frame" />
           </div>
         </div>
       </section>
-
-      {/* Email Capture — Hero */}
-      <EmailCapture />
 
       {/* How It Works */}
       <section className="px-6 py-20 md:py-28">
@@ -225,7 +222,14 @@ export default function Home() {
       </section>
 
       {/* Email Capture — Bottom */}
-      <EmailCapture />
+      <section className="px-6 py-16 md:py-20">
+        <div className="max-w-md mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-center font-[family-name:var(--font-dm-serif)]">
+            Get notified when BeforeScroll launches
+          </h2>
+          <EmailCapture />
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="border-t border-border px-6 py-8">
