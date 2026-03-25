@@ -201,6 +201,12 @@ export default function Home() {
           <p>&copy; 2026 BeforeScroll</p>
           <div className="flex gap-6">
             <Link
+              href="/feedback"
+              className="hover:text-foreground transition-colors"
+            >
+              Feature Requests
+            </Link>
+            <Link
               href="/privacy"
               className="hover:text-foreground transition-colors"
             >
