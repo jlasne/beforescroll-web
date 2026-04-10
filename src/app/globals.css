@@ -37,6 +37,35 @@ body {
 .animate-delay-200 { animation-delay: 0.2s; }
 .animate-delay-300 { animation-delay: 0.3s; }
 .animate-delay-400 { animation-delay: 0.4s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+
+/* Scroll reveal — driven by IntersectionObserver in components */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.reveal-from-left { transform: translate(-40px, 24px); }
+.reveal.reveal-from-right { transform: translate(40px, 24px); }
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.reveal-delay-100 { transition-delay: 0.1s; }
+.reveal-delay-200 { transition-delay: 0.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.reveal-from-left,
+  .reveal.reveal-from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 /* Phone mockup */
 .phone-frame {
