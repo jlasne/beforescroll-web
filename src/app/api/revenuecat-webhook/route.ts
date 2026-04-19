@@ -1,18 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { upsertContact, sendEvent } from "@/lib/loops";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
 import { ApiError, withApi } from "@/lib/apiHandler";
 
 const REVENUECAT_WEBHOOK_SECRET = process.env.REVENUECAT_WEBHOOK_SECRET;
+if (!REVENUECAT_WEBHOOK_SECRET) {
+  throw new Error("Missing env var: REVENUECAT_WEBHOOK_SECRET");
+}
+const expectedAuthHeader = Buffer.from(`Bearer ${REVENUECAT_WEBHOOK_SECRET}`);
+
+function verifyAuth(req: NextRequest): boolean {
+  const header = req.headers.get("authorization");
+  if (!header) return false;
+  const provided = Buffer.from(header);
+  if (provided.length !== expectedAuthHeader.length) return false;
+  return timingSafeEqual(provided, expectedAuthHeader);
+}
+
+function redactEmail(email?: string): string {
+  if (!email) return "user_***";
+  return `user_${createHash("sha256").update(email).digest("hex").slice(0, 8)}`;
+}
 
 export const POST = withApi(async (req: NextRequest) => {
-  const authHeader = req.headers.get("authorization");
-  if (
-    REVENUECAT_WEBHOOK_SECRET &&
-    authHeader !== `Bearer ${REVENUECAT_WEBHOOK_SECRET}`
-  ) {
-    throw new ApiError(401, "unauthorized");
-  }
+  if (!verifyAuth(req)) throw new ApiError(401, "unauthorized");
 
   const body = await req.json().catch(() => null);
   const eventType = (body as { event?: { type?: string } } | null)?.event?.type;
@@ -26,7 +38,7 @@ export const POST = withApi(async (req: NextRequest) => {
     throw new ApiError(400, "invalid_input", "Missing event type or email");
   }
 
-  console.log(`[RevenueCat] Event: ${eventType} for ${email}`);
+  console.log(`[RevenueCat] Event: ${eventType} for ${redactEmail(email)}`);
 
   switch (eventType) {
     case "INITIAL_PURCHASE":
