@@ -75,7 +75,7 @@ async function sendLoopsEvent(
   }
 }
 
-Deno.serve(async (_req) => {
+Deno.serve(async () => {
   try {
     const now = new Date();
     let processed = 0;
