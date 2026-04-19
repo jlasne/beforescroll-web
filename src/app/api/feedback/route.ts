@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
 import { ApiError, parseJson, withApi, z } from "@/lib/apiHandler";
+import { checkRateLimit, getClientIp, ratelimitFor } from "@/lib/ratelimit";
 
 const FeedbackSchema = z.object({
   title: z.string().min(5).max(200),
@@ -8,6 +9,11 @@ const FeedbackSchema = z.object({
   type: z.enum(["feature", "bug"]),
   author_name: z.string().min(1).max(80).optional(),
   author_email: z.email().max(160).optional(),
+});
+
+const rlPost = ratelimitFor("feedback:post", {
+  requests: 10,
+  windowSeconds: 3600,
 });
 
 export const GET = withApi(async (req: NextRequest) => {
@@ -32,6 +38,9 @@ export const GET = withApi(async (req: NextRequest) => {
 });
 
 export const POST = withApi(async (req: NextRequest) => {
+  const rlRes = await checkRateLimit(rlPost, getClientIp(req));
+  if (rlRes) return rlRes;
+
   const input = await parseJson(req, FeedbackSchema);
 
   const { data, error } = await supabase

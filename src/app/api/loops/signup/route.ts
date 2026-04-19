@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { upsertContact, sendEvent } from "@/lib/loops";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
 import { parseJson, withApi, z } from "@/lib/apiHandler";
+import { checkRateLimit, getClientIp, ratelimitFor } from "@/lib/ratelimit";
 
 const SignupSchema = z.object({
   email: z.email().max(160),
@@ -9,7 +10,15 @@ const SignupSchema = z.object({
   platform: z.string().max(40).optional(),
 });
 
+const rl = ratelimitFor("loops:signup", {
+  requests: 20,
+  windowSeconds: 3600,
+});
+
 export const POST = withApi(async (req: NextRequest) => {
+  const rlRes = await checkRateLimit(rl, getClientIp(req));
+  if (rlRes) return rlRes;
+
   const { email, name, platform } = await parseJson(req, SignupSchema);
 
   const nameStr = name ?? "";

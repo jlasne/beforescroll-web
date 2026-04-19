@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { upsertContact, sendEvent, sendTransactional } from "@/lib/loops";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
 import { parseJson, withApi, z } from "@/lib/apiHandler";
+import { checkRateLimit, getClientIp, ratelimitFor } from "@/lib/ratelimit";
 
 const ALLOWED_EVENTS = [
   "app_open",
@@ -16,6 +17,8 @@ const EventSchema = z.object({
   properties: z.record(z.string(), z.unknown()).optional(),
 });
 
+const rl = ratelimitFor("loops:event", { requests: 20, windowSeconds: 3600 });
+
 // Transactional email IDs for streak milestones (set these in Loops dashboard)
 const STREAK_TRANSACTIONAL_IDS: Record<number, string> = {
   7: "streak_7_days",
@@ -26,6 +29,9 @@ const STREAK_TRANSACTIONAL_IDS: Record<number, string> = {
 };
 
 export const POST = withApi(async (req: NextRequest) => {
+  const rlRes = await checkRateLimit(rl, getClientIp(req));
+  if (rlRes) return rlRes;
+
   const { email, event, properties } = await parseJson(req, EventSchema);
 
   switch (event) {
