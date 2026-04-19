@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { upsertContact, sendEvent } from "@/lib/loops";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
-import { ApiError, withApi } from "@/lib/apiHandler";
+import { parseJson, withApi, z } from "@/lib/apiHandler";
+
+const SignupSchema = z.object({
+  email: z.email().max(160),
+  name: z.string().max(120).optional(),
+  platform: z.string().max(40).optional(),
+});
 
 export const POST = withApi(async (req: NextRequest) => {
-  const { email, name, platform } = (await req.json().catch(() => ({}))) as {
-    email?: unknown;
-    name?: unknown;
-    platform?: unknown;
-  };
+  const { email, name, platform } = await parseJson(req, SignupSchema);
 
-  if (typeof email !== "string") throw new ApiError(400, "missing_email");
-
-  const nameStr = typeof name === "string" ? name : "";
-  const platformStr = typeof platform === "string" ? platform : "android";
+  const nameStr = name ?? "";
+  const platformStr = platform ?? "android";
 
   await upsertContact({
     email,

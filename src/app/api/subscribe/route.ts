@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
-import { ApiError, withApi } from "@/lib/apiHandler";
+import { ApiError, parseJson, withApi, z } from "@/lib/apiHandler";
+
+const SubscribeSchema = z.object({
+  email: z.email().max(160),
+  platform: z.string().min(1).max(40),
+});
 
 export const POST = withApi(async (req: NextRequest) => {
-  const { email, platform } = (await req.json().catch(() => ({}))) as {
-    email?: unknown;
-    platform?: unknown;
-  };
-
-  if (typeof email !== "string" || typeof platform !== "string") {
-    throw new ApiError(400, "invalid_input", "Missing fields");
-  }
+  const { email, platform } = await parseJson(req, SubscribeSchema);
 
   const { error } = await supabase.from("waitlist").insert({ email, platform });
   if (error && error.code !== "23505") {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z, ZodType } from "zod";
 
 export class ApiError extends Error {
   constructor(
@@ -44,3 +45,28 @@ function safePath(req: NextRequest): string {
     return "unknown";
   }
 }
+
+export async function parseJson<T>(
+  req: NextRequest,
+  schema: ZodType<T>,
+): Promise<T> {
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    throw new ApiError(400, "invalid_input", "Body must be JSON");
+  }
+  const result = schema.safeParse(body);
+  if (!result.success) {
+    throw new ApiError(
+      400,
+      "invalid_input",
+      "Validation failed",
+      result.error.issues,
+    );
+  }
+  return result.data;
+}
+
+export { z };
+

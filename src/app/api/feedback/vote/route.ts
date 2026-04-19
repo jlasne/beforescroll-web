@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
-import { ApiError, withApi } from "@/lib/apiHandler";
+import { ApiError, parseJson, withApi, z } from "@/lib/apiHandler";
+
+const VoteSchema = z.object({
+  request_id: z.uuid(),
+  voter_fingerprint: z.string().min(8).max(128),
+});
 
 export const POST = withApi(async (req: NextRequest) => {
-  const { request_id, voter_fingerprint } = (await req.json().catch(() => ({}))) as {
-    request_id?: unknown;
-    voter_fingerprint?: unknown;
-  };
-
-  if (typeof request_id !== "string" || typeof voter_fingerprint !== "string") {
-    throw new ApiError(400, "invalid_input", "Missing fields");
-  }
+  const { request_id, voter_fingerprint } = await parseJson(req, VoteSchema);
 
   const { error } = await supabase
     .from("feedback_votes")

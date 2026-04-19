@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { upsertContact, sendEvent, sendTransactional } from "@/lib/loops";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
-import { ApiError, withApi } from "@/lib/apiHandler";
+import { parseJson, withApi, z } from "@/lib/apiHandler";
 
 const ALLOWED_EVENTS = [
   "app_open",
@@ -10,7 +10,11 @@ const ALLOWED_EVENTS = [
   "onboarding_completed",
 ] as const;
 
-type AllowedEvent = (typeof ALLOWED_EVENTS)[number];
+const EventSchema = z.object({
+  email: z.email().max(160),
+  event: z.enum(ALLOWED_EVENTS),
+  properties: z.record(z.string(), z.unknown()).optional(),
+});
 
 // Transactional email IDs for streak milestones (set these in Loops dashboard)
 const STREAK_TRANSACTIONAL_IDS: Record<number, string> = {
@@ -22,20 +26,9 @@ const STREAK_TRANSACTIONAL_IDS: Record<number, string> = {
 };
 
 export const POST = withApi(async (req: NextRequest) => {
-  const { email, event, properties } = (await req.json().catch(() => ({}))) as {
-    email?: unknown;
-    event?: unknown;
-    properties?: Record<string, unknown>;
-  };
+  const { email, event, properties } = await parseJson(req, EventSchema);
 
-  if (typeof email !== "string" || typeof event !== "string") {
-    throw new ApiError(400, "invalid_input", "Missing email or event");
-  }
-  if (!ALLOWED_EVENTS.includes(event as AllowedEvent)) {
-    throw new ApiError(400, "unknown_event");
-  }
-
-  switch (event as AllowedEvent) {
+  switch (event) {
     case "app_open": {
       await upsertContact({
         email,
