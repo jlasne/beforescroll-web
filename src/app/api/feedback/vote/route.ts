@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
+import { ApiError, withApi } from "@/lib/apiHandler";
 
-export async function POST(req: NextRequest) {
-  const { request_id, voter_fingerprint } = await req.json();
+export const POST = withApi(async (req: NextRequest) => {
+  const { request_id, voter_fingerprint } = (await req.json().catch(() => ({}))) as {
+    request_id?: unknown;
+    voter_fingerprint?: unknown;
+  };
 
-  if (!request_id || !voter_fingerprint) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  if (typeof request_id !== "string" || typeof voter_fingerprint !== "string") {
+    throw new ApiError(400, "invalid_input", "Missing fields");
   }
 
   const { error } = await supabase
@@ -13,11 +17,8 @@ export async function POST(req: NextRequest) {
     .insert({ request_id, voter_fingerprint });
 
   if (error) {
-    if (error.code === "23505") {
-      return NextResponse.json({ error: "Already voted" }, { status: 409 });
-    }
-    return NextResponse.json({ error: "Failed to vote" }, { status: 500 });
+    if (error.code === "23505") throw new ApiError(409, "already_voted");
+    throw new ApiError(500, "vote_failed", error.message);
   }
-
   return NextResponse.json({ success: true });
-}
+});

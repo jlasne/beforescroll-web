@@ -1,24 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
+import { ApiError, withApi } from "@/lib/apiHandler";
 
-export async function POST(req: NextRequest) {
-  const { email, platform } = await req.json();
+export const POST = withApi(async (req: NextRequest) => {
+  const { email, platform } = (await req.json().catch(() => ({}))) as {
+    email?: unknown;
+    platform?: unknown;
+  };
 
-  if (!email || !platform) {
-    return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+  if (typeof email !== "string" || typeof platform !== "string") {
+    throw new ApiError(400, "invalid_input", "Missing fields");
   }
 
   const { error } = await supabase.from("waitlist").insert({ email, platform });
-
-  if (error) {
-    if (error.code === "23505") {
-      return NextResponse.json({ success: true });
-    }
-    return NextResponse.json(
-      { error: "Failed to subscribe" },
-      { status: 500 }
-    );
+  if (error && error.code !== "23505") {
+    throw new ApiError(500, "subscribe_failed", error.message);
   }
-
   return NextResponse.json({ success: true });
-}
+});
