@@ -33,7 +33,7 @@ export default function Terms() {
             Subscriptions & Payments
           </h2>
           <p>
-            BeforeScroll offers a 15-day free trial. After the trial,
+            BeforeScroll offers a 7-day free trial. After the trial,
             subscriptions are available at &euro;4.99/month or &euro;39.99/year.
             Subscriptions are billed through the Apple App Store and
             are subject to Apple&apos;s terms. Subscriptions automatically renew
