@@ -1,5 +1,5 @@
 import Link from "next/link";
-import EmailCapture from "@/components/EmailCapture";
+import DualCTA from "@/components/DualCTA";
 import FeatureRow from "@/components/FeatureRow";
 
 const features = [
@@ -71,8 +71,8 @@ export default function Home() {
               goal. No willpower needed — just walk.
             </p>
           </div>
-          <div className="animate-fade-in animate-delay-200 w-full max-w-md">
-            <EmailCapture />
+          <div className="animate-fade-in animate-delay-200 w-full">
+            <DualCTA />
           </div>
         </div>
       </section>
@@ -102,12 +102,10 @@ export default function Home() {
             Ready to walk before you scroll?
           </h2>
           <p className="text-muted text-lg md:text-xl mb-10">
-            Join the waitlist. We'll ping you the moment BeforeScroll lands on
-            your phone.
+            Get BeforeScroll on Android now. iOS dropping soon — join the
+            waitlist.
           </p>
-          <div className="max-w-md mx-auto">
-            <EmailCapture />
-          </div>
+          <DualCTA />
         </div>
       </section>
 
