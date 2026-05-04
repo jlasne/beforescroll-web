@@ -6,35 +6,35 @@ const features = [
   {
     eyebrow: "Step 01 — Lock",
     title: "Lock the apps that own you.",
-    body: "TikTok, Instagram, YouTube — pick the apps that swallow your day. BeforeScroll holds them shut until your body moves. No willpower required, just a hard line your thumb can't cross.",
+    body: "TikTok, Instagram, YouTube. Pick the apps that swallow your day. BeforeScroll holds them shut until your body moves. No willpower required, just a hard line your thumb can't cross.",
     image: "/screenshots/01-lock-tiktok.png",
     alt: "Lock screen showing apps blocked until you walk",
   },
   {
     eyebrow: "Step 02 — Budget",
     title: "Set a daily budget you'll actually keep.",
-    body: "Decide how much screen time you deserve each day. Watch it tick down as you scroll. Your weekly chart tells the truth — no nags, no guilt, just the number staring back at you.",
+    body: "Decide how much screen time you deserve each day. Watch it tick down as you scroll. Your weekly chart tells the truth, no nags, no guilt, just the number staring back at you.",
     image: "/screenshots/02-set-daily-limits.png",
     alt: "Daily time budget and weekly screen time chart",
   },
   {
     eyebrow: "Step 03 — Streak",
     title: "Build a streak worth keeping.",
-    body: "Every step counts. Every day stacks. Hit your goal, watch the streak grow. Miss a day, start again. Real momentum — not another notification screaming for attention.",
+    body: "Every step counts. Every day stacks. Hit your goal, watch the streak grow. Miss a day, start again. Real momentum, not another notification screaming for attention.",
     image: "/screenshots/03-build-streaks.png",
     alt: "Streak counter and weekly activity chart",
   },
   {
     eyebrow: "Step 04 — Try",
     title: "Try it free for 7 days.",
-    body: "No credit card. No subscription trap. Lock your apps, walk for a week, and decide for yourself. If it doesn't change how you scroll, walk away — literally.",
+    body: "Lock your apps, walk for a week, and decide for yourself. If it doesn't change how you scroll, walk away, literally.",
     image: "/screenshots/04-try-free.png",
     alt: "App selection screen with WhatsApp, YouTube, Chrome",
   },
   {
     eyebrow: "Step 05 — Earn",
     title: "Earn every minute on your feet.",
-    body: "Set your daily step goal and your screen time target. Walk 100 steps, unlock 1 minute. Your phone, your rules — the lazier you get, the longer the lock.",
+    body: "Set your daily step goal and your screen time target. Walk 100 steps, unlock 1 minute. Your phone, your rules. The lazier you get, the longer the lock.",
     image: "/screenshots/05-earn-screen-time.png",
     alt: "Settings showing step goal and screen time target",
   },
@@ -102,8 +102,7 @@ export default function Home() {
             Ready to walk before you scroll?
           </h2>
           <p className="text-muted text-lg md:text-xl mb-10">
-            Get BeforeScroll on Android now. iOS dropping soon — join the
-            waitlist.
+            Now on iOS. Android coming soon.
           </p>
           <DualCTA />
         </div>
