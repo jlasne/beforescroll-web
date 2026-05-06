@@ -1,3 +1,7 @@
 {
-  "7617565751712550166": "https://apps.apple.com/app/YOUR_APP_ID"
+  "download": {
+    "ios": "https://apps.apple.com/app/YOUR_APP_ID",
+    "android": "https://play.google.com/store/apps/details?id=YOUR_PACKAGE",
+    "desktop": "https://beforescroll.app"
+  }
 }
